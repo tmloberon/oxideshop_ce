@@ -949,9 +949,29 @@ class ShopControl extends \OxidEsales\Eshop\Core\Base
         try {
             $controllerClass = $this->resolveControllerClass($controllerKey);
         } catch (\OxidEsales\Eshop\Core\Exception\RoutingException $exception) {
-            $this->handleRoutingException($exception);
+            if ($this->isMetadataV1Controller($controllerKey)) {
+                $controllerClass = $controllerKey;
+            } else {
+                $this->handleRoutingException($exception);
+            }
         }
 
         return $controllerClass;
+    }
+
+    /**
+     * @todo Remove function after routing BC is removed
+     *
+     * @param $controllerKey
+     * @return bool
+     */
+    protected function isMetadataV1Controller($controllerKey)
+    {
+        try {
+            $obj = oxNew($controllerKey);
+            return ($obj instanceof FrontendController);
+        } catch (\OxidEsales\Eshop\Core\Exception\SystemComponentException $e) {
+            return false;
+        }
     }
 }
