@@ -8,6 +8,7 @@
 namespace OxidEsales\EshopCommunity\Core;
 
 use OxidEsales\Eshop\Application\Controller\FrontendController;
+use OxidEsales\Eshop\Core\Controller\BaseController;
 use OxidEsales\Eshop\Core\Exception\DatabaseConnectionException;
 use OxidEsales\Eshop\Core\Exception\RoutingException;
 use OxidEsales\Eshop\Core\Exception\StandardException;
@@ -969,7 +970,7 @@ class ShopControl extends \OxidEsales\Eshop\Core\Base
     {
         try {
             $obj = oxNew($controllerKey);
-            return ($obj instanceof FrontendController);
+            return ($obj instanceof BaseController);
         } catch (\OxidEsales\Eshop\Core\Exception\SystemComponentException $e) {
             return false;
         }
